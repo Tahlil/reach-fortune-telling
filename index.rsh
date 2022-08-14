@@ -3,7 +3,7 @@
 export const main = Reach.App(() => {
   const Alice = Participant('Alice', {
     // Specify Alice's interact interface here
-    getAcceptanceOfFortune: Fun([], Bool)
+    getAcceptanceOfFortune: Fun([Bytes(32)], Bool)
   });
   const Bob = Participant('Bob', {
     // Specify Bob's interact interface here
@@ -30,9 +30,10 @@ export const main = Reach.App(() => {
     Bob.publish(fortune);
     commit();
     Alice.only(() => {
-      const accaptance = declassify(interact.getAcceptanceOfFortune());
+      const accaptance = declassify(interact.getAcceptanceOfFortune(fortune));
     })
     Alice.publish(accaptance);
+    commit();
 
     accepted = accaptance;
     continue;

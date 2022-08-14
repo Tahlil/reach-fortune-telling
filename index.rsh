@@ -1,18 +1,46 @@
 'reach 0.1';
 
 export const main = Reach.App(() => {
-  const A = Participant('Alice', {
+  const Alice = Participant('Alice', {
     // Specify Alice's interact interface here
+    getAcceptanceOfFortune: Fun([], Bool)
   });
-  const B = Participant('Bob', {
+  const Bob = Participant('Bob', {
     // Specify Bob's interact interface here
+    ready: Bytes(11),
+    fortune: Bytes(32)
   });
+
   init();
-  // The first one to publish deploys the contract
-  A.publish();
+  const payment = 100;
+  Alice.pay(payment);
   commit();
-  // The second one to publish always attaches
-  B.publish();
+  Bob.only(() => {
+    const ready = declassify(interact.ready);
+  });
+  Bob.publish(ready);
+  var accepted = false;
+  invariant( balance() == payment );
+  while(!accepted) {
+    commit();
+
+    Bob.only(() => {
+      const fortune = declassify(interact.fortune);
+    });
+    Bob.publish(fortune);
+    commit();
+    Alice.only(() => {
+      const accaptance = declassify(interact.getAcceptanceOfFortune());
+    })
+    Alice.publish(accaptance);
+
+    accepted = accaptance;
+    continue;
+  }
+  
+  assert(accepted);
+
+  transfer(payment).to(Bob);
   commit();
   // write your program here
   exit();

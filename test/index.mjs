@@ -65,3 +65,11 @@ if (!isAlice) {
     return accaptance;
   }
 }
+
+const part = isAlice ? ctc.p.Alice : ctc.p.Bob;
+await part(interact);
+
+const after = await getBalance();
+console.log(`Your balance is now ${after}`);
+
+ask.done();

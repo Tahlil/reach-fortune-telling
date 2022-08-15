@@ -45,16 +45,11 @@ console.log(`Your balance is ${before}`);
 const interact = { };
 
 if (!isAlice) {
-  const ready = await ask.ask(
-    `Are you ready?`,
-  );
-  interact.ready = ready;
-  const fortune = await ask.ask(
-    `What is the fortune`,
-    (x => x)
-  ); 
-  console.log(`Fortune: ${fortune}`); 
-  interact.fortune = fortune;
+  interact.readFortune = async () => {
+    const fortune = await ask.ask(`What is the fortune`, (x) => x);
+    console.log(`Fortune is ${fortune}`);
+    return fortune;
+  };
   
 } else {
   interact.getAcceptanceOfFortune = async (fortune) => {

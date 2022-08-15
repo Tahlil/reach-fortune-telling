@@ -44,12 +44,14 @@ console.log(`Your balance is ${before}`);
 
 const interact = { };
 
+const ready = await ask.ask(
+  `Are you ready?`,
+  ask.yesno
+);
+interact.ready = ready;
+
 if (!isAlice) {
-  const ready = await ask.ask(
-    `Are you ready?`,
-    ask.yesno
-  );
-  interact.ready = ready;
+  interact
   const fortune = await ask.ask(
     `What is the fortune`
   );  

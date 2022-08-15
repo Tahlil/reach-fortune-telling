@@ -3,29 +3,27 @@
 export const main = Reach.App(() => {
   const Alice = Participant('Alice', {
     // Specify Alice's interact interface here
-    getAcceptanceOfFortune: Fun([Bytes(32)], Bool)
+    getAcceptanceOfFortune: Fun([Bytes(32)], Bool),
   });
   const Bob = Participant('Bob', {
     // Specify Bob's interact interface here
-    ready: Bytes(11),
-    fortune: Bytes(32)
+    readFortune: Fun([], Bytes(32))
   });
 
   init();
   const payment = 100;
   Alice.pay(payment);
   commit();
-  Bob.only(() => {
-    const ready = declassify(interact.ready);
-  });
-  Bob.publish(ready);
+  Bob.publish();
+
+  
   var accepted = false;
   invariant( balance() == payment );
   while(!accepted) {
     commit();
 
     Bob.only(() => {
-      const fortune = declassify(interact.fortune);
+      const fortune = declassify(interact.readFortune());
     });
     Bob.publish(fortune);
     commit();
@@ -33,7 +31,6 @@ export const main = Reach.App(() => {
       const accaptance = declassify(interact.getAcceptanceOfFortune(fortune));
     })
     Alice.publish(accaptance);
-    commit();
 
     accepted = accaptance;
     continue;

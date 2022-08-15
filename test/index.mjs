@@ -1,5 +1,5 @@
 import { loadStdlib, ask } from '@reach-sh/stdlib';
-import * as backend from '../build/index.main.mjs';
+import * as backend from './build/index.main.mjs';
 const stdlib = loadStdlib();
 
 const isAlice = await ask.ask(
@@ -44,26 +44,20 @@ console.log(`Your balance is ${before}`);
 
 const interact = { };
 
-const ready = await ask.ask(
-  `Are you ready?`,
-  ask.yesno
-);
-interact.ready = ready;
-
 if (!isAlice) {
-  interact
-  const fortune = await ask.ask(
-    `What is the fortune`
-  );  
-  interact.fortune = fortune;
+  interact.readFortune = async () => {
+    const fortune = await ask.ask(`What is the fortune`, (x) => x);
+    console.log(`Fortune is ${fortune}`);
+    return fortune;
+  };
   
 } else {
   interact.getAcceptanceOfFortune = async (fortune) => {
     console.log(`The fortune is ${fortune}`);
-    const accaptance = await ask.ask({
-      `Do you except the fortune "${fortune}" ?`,
+    const accaptance = await ask.ask(
+      `Do you except the fortune ${fortune} ?`,
       ask.yesno
-    });
+    );
     return accaptance;
   }
 }

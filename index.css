@@ -45,6 +45,9 @@ body {
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
+    height: 100%;
+    background-color: #00f;
+    transition: .3s ease-in-out;
   }
   
   textarea {
@@ -61,13 +64,7 @@ body {
     white-space: pre;
   }
 
-  button {
-
-
-    height: 100%;
-    background-color: #00f;
-    transition: .3s ease-in-out;
-  }
+ 
   button:hover{
     width: 100%;
   }

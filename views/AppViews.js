@@ -8,7 +8,7 @@ exports.Wrapper = class extends React.Component {
     return (
       <div className="App">
         <header className="App-header" id="root">
-          <h1>Rock, Paper, Scissors</h1>
+          <h1>Forutne Telling</h1>
           {content}
         </header>
       </div>
@@ -56,6 +56,7 @@ exports.FundAccount = class extends React.Component {
 exports.DeployerOrAttacher = class extends React.Component {
   render() {
     const {parent} = this.props;
+   
     return (
       <div>
         Please select a role:

@@ -1,7 +1,6 @@
 import React from 'react';
-import PlayerViews from './PlayerViews';
 
-const exports = {...PlayerViews};
+const exports = {};
 
 exports.Wrapper = class extends React.Component {
   render() {
@@ -48,33 +47,43 @@ exports.Attaching = class extends React.Component {
   }
 }
 
-exports.AcceptTerms = class extends React.Component {
+exports.WaitingForResults = class extends React.Component {
   render() {
-    const {wager, standardUnit, parent} = this.props;
-    const {disabled} = this.state || {};
     return (
       <div>
-        The terms of the game are:
-        <br /> Wager: {wager} {standardUnit}
-        <br />
-        <button
-          disabled={disabled}
-          onClick={() => {
-            this.setState({disabled: true});
-            parent.termsAccepted();
-          }}
-        >Accept terms and pay wager</button>
+        Waiting for results...
       </div>
     );
   }
 }
 
-exports.WaitingForTurn = class extends React.Component {
+exports.ReadFortune = class extends React.Component {
   render() {
+    const {parent} = this.props;
+    let fortune =(this.state || {}).fortune || "default";
+    
+    function handleClick() {
+      console.log("Handle click, Fortune is: ", fortune);
+      parent.tellFortune(fortune)
+    }
+
+    function handleChange(e){
+      console.log("Changed Value:", e.currentTarget.value);
+      fortune=e.currentTarget.value;
+      console.log("Fortune is ", fortune);
+    }
     return (
       <div>
-        Waiting for the other player...
-        <br />Think about which move you want to play.
+        <input
+          type='text'
+          placeholder="Writeup the fortune"
+          onChange={(e) => handleChange(e)}
+        /> 
+        <br />
+        <button
+        
+          onClick={handleClick}
+        >Read Fortune</button>
       </div>
     );
   }

@@ -1,7 +1,6 @@
 import React from 'react';
-import PlayerViews from './PlayerViews';
 
-const exports = {...PlayerViews};
+const exports = {};
 
 const sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));
 
@@ -17,33 +16,12 @@ exports.Wrapper = class extends React.Component {
   }
 }
 
-exports.SetWager = class extends React.Component {
-  render() {
-    const {parent, defaultWager, standardUnit} = this.props;
-    const wager = (this.state || {}).wager || defaultWager;
-    return (
-      <div>
-        <input
-          type='number'
-          placeholder={defaultWager}
-          onChange={(e) => this.setState({wager: e.currentTarget.value})}
-        /> {standardUnit}
-        <br />
-        <button
-          onClick={() => parent.setWager(wager)}
-        >Set wager</button>
-      </div>
-    );
-  }
-}
-
 exports.Deploy = class extends React.Component {
   render() {
-    const {parent, wager, standardUnit} = this.props;
+    const {parent} = this.props;
     return (
       <div>
-        Wager (pay to deploy): <strong>{wager}</strong> {standardUnit}
-        <br />
+       
         <button
           onClick={() => parent.deploy()}
         >Deploy</button>
@@ -51,6 +29,18 @@ exports.Deploy = class extends React.Component {
     );
   }
 }
+
+exports.WaitingForTurn = class extends React.Component {
+  render() {
+    return (
+      <div>
+        Waiting for to again read the fortune...
+      </div>
+    );
+  }
+}
+
+
 
 exports.Deploying = class extends React.Component {
   render() {
@@ -71,6 +61,8 @@ exports.WaitingForAttacher = class extends React.Component {
     button.innerHTML = origInnerHTML;
     button.disabled = false;
   }
+
+  
 
   render() {
     const {ctcInfoStr} = this.props;
